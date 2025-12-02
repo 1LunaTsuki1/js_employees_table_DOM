@@ -10,14 +10,14 @@ warningMessage.hidden = true;
 warningMessage.dataset.qa = 'notification';
 warningMessage.classList.add('notification');
 
-function createLabel(nameOfInput, type = 'text', required) {
+function createLabel(nameOfInput, type = 'text', required = true) {
   const label = document.createElement('label');
   const input = document.createElement('input');
 
   input.type = type;
   input.name = nameOfInput;
   input.dataset.qa = nameOfInput;
-  input[required] = true;
+  input.required = required;
 
   label.textContent =
     nameOfInput.charAt(0).toUpperCase() + nameOfInput.slice(1) + ':';
@@ -139,8 +139,8 @@ function saveToTable(ev) {
 
   addEmployeeToTable(newEmployee);
   showNotification('Employee added successfully!', 'success');
+  form.reset();
 }
-form.reset();
 
 function addEmployeeToTable(employee) {
   const table = document.querySelector('tbody');
