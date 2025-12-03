@@ -92,6 +92,7 @@ function saveToTable(ev) {
   const nameInput = form.querySelector('[name="name"]');
   const positionInput = form.querySelector('[name="position"]');
   const ageInput = form.querySelector('[name="age"]');
+  const salaryInput = form.querySelector('[name="salary"]');
 
   if (nameInput.value.length < 4 || /\d/.test(nameInput.value)) {
     showNotification(
@@ -111,21 +112,37 @@ function saveToTable(ev) {
     return;
   }
 
-  if (ageInput.value) {
-    const age = Number(ageInput.value);
+  if (!ageInput.value) {
+    showNotification('Age is required.', 'error');
 
-    if (age < 18 || age > 90) {
-      showNotification('Age must be between 18 and 90.', 'error');
+    return;
+  }
 
-      return;
-    }
+  const age = Number(ageInput.value);
+
+  if (age < 18 || age > 90) {
+    showNotification('Age must be between 18 and 90.', 'error');
+
+    return;
+  }
+
+  if (!salaryInput.value) {
+    showNotification('Salary is required.', 'error');
+
+    return;
+  }
+
+  const salary = Number(form.querySelector('[name="salary"]').value);
+
+  if (salary <= 0 || Number.isNaN(salary)) {
+    showNotification('Salary must be a positive number.', 'error');
+
+    return;
   }
 
   const position = form.querySelector('[name="position"]').value;
 
   const nameOfEmployee = nameInput.value;
-
-  const salary = Number(form.querySelector('[name="salary"]').value);
 
   const formattedSalary = '$' + new Intl.NumberFormat('en-US').format(salary);
 
@@ -284,7 +301,7 @@ function saveActiveCell(cell) {
     activeCell.textContent = initialValue;
   } else {
     cell.textContent = input.value.trim();
-    activeCell = null;
-    input.remove();
   }
+  activeCell = null;
+  input.remove();
 }
